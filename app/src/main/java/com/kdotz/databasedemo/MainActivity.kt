@@ -12,21 +12,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         try {
-            val eventDatabase: SQLiteDatabase = this.openOrCreateDatabase("Events", MODE_PRIVATE, null)
-            eventDatabase.execSQL("CREATE TABLE IF NOT EXISTS events (event VARCHAR, year INT(4))")
+            val sqLiteDatabase : SQLiteDatabase = this.openOrCreateDatabase("Users", MODE_PRIVATE, null)
+            sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS newUsers (name VARCHAR, age INT(4), id INTEGER PRIMARY KEY)")
 
-//            eventDatabase.execSQL("INSERT INTO events (event, year) VALUES ('Declaration of Independence', 1776)")
-            eventDatabase.execSQL("INSERT INTO events (event, year) VALUES ('Coachella', 2018)")
+//            sqLiteDatabase.execSQL("INSERT INTO newUsers (name, age) VALUES ('Krista', 23)")
+//            sqLiteDatabase.execSQL("INSERT INTO newUsers (name, age) VALUES ('Krista', 43)")
+//            sqLiteDatabase.execSQL("INSERT INTO newUsers (name, age) VALUES ('Andrew', 22)")
 
-            val c: Cursor = eventDatabase.rawQuery("SELECT * FROM events", null)
+            sqLiteDatabase.execSQL("DELETE FROM newUsers WHERE id = 3")
 
-            val eventIndex = c.getColumnIndex("event")
-            val yearIndex = c.getColumnIndex("year")
+            val c: Cursor = sqLiteDatabase.rawQuery("SELECT * FROM newUsers", null)
+
+            val nameIndex = c.getColumnIndex("name")
+            val ageIndex = c.getColumnIndex("age")
+            val idIndex = c.getColumnIndex("id")
 
             c.moveToFirst()
 
             while (!c.isAfterLast) {
-                println("Event and Year ${c.getString(eventIndex)} ${Integer.toString(c.getInt(yearIndex))}")
+                println("First and age, and id ${c.getString(nameIndex)} ${Integer.toString(c.getInt(ageIndex))} ${Integer.toString(c.getInt(idIndex))}")
                 c.moveToNext()
             }
 
